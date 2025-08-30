@@ -22,12 +22,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE o.status != 'CANCELLED'")
     BigDecimal getTotalRevenue();
 
-    @Query("SELECT o FROM Order o WHERE o.createdAt >= :startDate AND o.createdAt <= :endDate")
-    List<Order> findOrdersByDateRange(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
-
-    @Query("SELECT o.status, COUNT(o) FROM Order o GROUP BY o.status")
-    List<Object[]> getOrderCountByStatus();
-
-    @Query("SELECT DATE(o.createdAt), SUM(o.totalAmount) FROM Order o WHERE o.status != 'CANCELLED' GROUP BY DATE(o.createdAt) ORDER BY DATE(o.createdAt)")
-    List<Object[]> getDailySales();
+    // Add this method to debug
+    @Query("SELECT o FROM Order o ORDER BY o.createdAt DESC")
+    List<Order> findAllOrdersOrdered();
 }

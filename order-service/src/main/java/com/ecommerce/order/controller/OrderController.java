@@ -1,5 +1,6 @@
 package com.ecommerce.order.controller;
 
+import com.ecommerce.order.dto.CreateOrderRequest;
 import com.ecommerce.order.dto.OrderStatusUpdate;
 import com.ecommerce.order.entity.Order;
 import com.ecommerce.order.entity.OrderStatus;
@@ -24,6 +25,16 @@ public class OrderController {
     @GetMapping
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
+    }
+
+    @PostMapping
+    public ResponseEntity<Order> createOrder(@RequestBody CreateOrderRequest orderRequest) {
+        try {
+            Order newOrder = orderService.createOrder(orderRequest);
+            return ResponseEntity.ok(newOrder);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/{id}")
